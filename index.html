@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李君衛 (Li Junwei) | 個人主頁 & 時鐘儀表板</title>
+    <meta name="description" content="李君衛 (Li Junwei) 的個人主頁，展示即時時間、世界時區、個人簡介與互動工具。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Canvas Animation -->
+    <canvas id="bg-canvas"></canvas>
+    
+    <!-- Outer Container -->
+    <div class="app-container">
+        <!-- Navigation Bar -->
+        <header class="navbar">
+            <div class="nav-brand">
+                <div class="avatar-sm">
+                    <img src="assets/avatar.jpg" alt="李君衛 Avatar">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">李君衛</span>
+                    <span class="brand-title">Li Junwei</span>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="#hero" class="nav-link active"><i class="fa-solid fa-clock"></i> 時間儀表板</a>
+                <a href="#about" class="nav-link"><i class="fa-solid fa-user"></i> 關於我</a>
+                <a href="#tools" class="nav-link"><i class="fa-solid fa-stopwatch"></i> 時間工具</a>
+                <a href="#skills" class="nav-link"><i class="fa-solid fa-code"></i> 專業技能</a>
+                <a href="#contact" class="nav-link"><i class="fa-solid fa-paper-plane"></i> 聯絡方式</a>
+            </nav>
+
+            <div class="nav-controls">
+                <div class="status-badge" id="status-badge">
+                    <span class="status-dot"></span>
+                    <span class="status-text">線上專注中</span>
+                </div>
+                <button class="icon-btn" id="format-toggle" title="切換 12/24 小時制">
+                    <span class="btn-text">24H</span>
+                </button>
+                <button class="icon-btn" id="theme-toggle" title="切換深淺模式">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section / Clock Dashboard -->
+            <section id="hero" class="hero-section">
+                <div class="hero-intro">
+                    <div class="badge-pill">
+                        <i class="fa-solid fa-sparkles"></i> 歡迎來到李君衛的數位空間
+                    </div>
+                    <h1 class="hero-title">
+                        你好，我是 <span class="gradient-text">李君衛</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        全棧工程師 & 數位創作者 ‧ 探索技術、時間與創意的交界
+                    </p>
+                    <div class="greeting-box" id="greeting-box">
+                        <i class="fa-solid fa-sun greeting-icon" id="greeting-icon"></i>
+                        <span id="greeting-text">載入時間與問候中...</span>
+                    </div>
+                </div>
+
+                <!-- Clock Display Panel -->
+                <div class="clock-dashboard-grid">
+                    <!-- Main Live Clock Card -->
+                    <div class="glass-card clock-main-card">
+                        <div class="clock-card-header">
+                            <span class="card-label"><i class="fa-regular fa-clock"></i> 當前本地時間</span>
+                            <span class="timezone-badge" id="timezone-label">GMT+8</span>
+                        </div>
+                        
+                        <div class="digital-clock-container">
+                            <div class="time-display" id="time-display">
+                                <span class="time-unit" id="clock-hours">00</span>
+                                <span class="time-sep">:</span>
+                                <span class="time-unit" id="clock-minutes">00</span>
+                                <span class="time-sep">:</span>
+                                <span class="time-unit time-sec" id="clock-seconds">00</span>
+                                <span class="ampm-badge" id="clock-ampm"></span>
+                            </div>
+                        </div>
+
+                        <!-- Smooth Circular Seconds Progress Dial -->
+                        <div class="clock-dial-container">
+                            <svg class="clock-svg" viewBox="0 0 200 200">
+                                <circle class="clock-bg-circle" cx="100" cy="100" r="85"></circle>
+                                <circle class="clock-progress-circle" id="second-progress" cx="100" cy="100" r="85"></circle>
+                            </svg>
+                            <div class="clock-dial-center">
+                                <div class="date-highlight" id="clock-date-cn">---</div>
+                                <div class="date-sub" id="clock-date-en">---</div>
+                            </div>
+                        </div>
+
+                        <div class="clock-card-footer">
+                            <div class="info-pill"><i class="fa-solid fa-calendar-day"></i> <span id="day-of-year">第 --- 天</span></div>
+                            <div class="info-pill"><i class="fa-solid fa-layer-group"></i> <span id="week-number">第 -- 週</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Side World Clocks & Time Progress Card -->
+                    <div class="side-clock-stack">
+                        <!-- World Cities Clock Card -->
+                        <div class="glass-card world-clock-card">
+                            <div class="card-header-sm">
+                                <h3><i class="fa-solid fa-globe"></i> 世界時區即時通</h3>
+                            </div>
+                            <div class="world-city-list">
+                                <div class="city-item" data-tz="Asia/Taipei">
+                                    <div class="city-info">
+                                        <span class="city-name">台北 / 北京</span>
+                                        <span class="city-tz">GMT+8</span>
+                                    </div>
+                                    <div class="city-time" id="city-taipei">--:--:--</div>
+                                </div>
+                                <div class="city-item" data-tz="Asia/Tokyo">
+                                    <div class="city-info">
+                                        <span class="city-name">東京 (Tokyo)</span>
+                                        <span class="city-tz">GMT+9</span>
+                                    </div>
+                                    <div class="city-time" id="city-tokyo">--:--:--</div>
+                                </div>
+                                <div class="city-item" data-tz="Europe/London">
+                                    <div class="city-info">
+                                        <span class="city-name">倫敦 (London)</span>
+                                        <span class="city-tz">GMT+1/0</span>
+                                    </div>
+                                    <div class="city-time" id="city-london">--:--:--</div>
+                                </div>
+                                <div class="city-item" data-tz="America/New_York">
+                                    <div class="city-info">
+                                        <span class="city-name">紐約 (New York)</span>
+                                        <span class="city-tz">GMT-4/-5</span>
+                                    </div>
+                                    <div class="city-time" id="city-ny">--:--:--</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Progress of Time Card -->
+                        <div class="glass-card time-progress-card">
+                            <div class="card-header-sm">
+                                <h3><i class="fa-solid fa-hourglass-half"></i> 時間流逝進度</h3>
+                            </div>
+                            <div class="progress-bars-container">
+                                <div class="progress-group">
+                                    <div class="progress-info">
+                                        <span>今日 elapsed (Day)</span>
+                                        <span id="percent-day">0%</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill cyan-fill" id="bar-day" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-group">
+                                    <div class="progress-info">
+                                        <span>本月 elapsed (Month)</span>
+                                        <span id="percent-month">0%</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill violet-fill" id="bar-month" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-group">
+                                    <div class="progress-info">
+                                        <span>今年 elapsed (Year 2026)</span>
+                                        <span id="percent-year">0%</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill pink-fill" id="bar-year" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="section-padding">
+                <div class="glass-card about-card">
+                    <div class="about-grid">
+                        <div class="about-avatar-wrapper">
+                            <img src="assets/avatar.jpg" alt="李君衛 Li Junwei" class="about-avatar">
+                            <div class="avatar-glow"></div>
+                        </div>
+                        <div class="about-content">
+                            <div class="section-tag">ABOUT ME</div>
+                            <h2>關於 李君衛 (Li Junwei)</h2>
+                            <p class="lead-text">
+                                熱衷於打造高效、美觀且具備極致使用者體驗的現代 Web 應用與數位解決方案。
+                            </p>
+                            <p class="body-text">
+                                我相信優質的軟體工程不僅在於精確的邏輯與高效架構，更在於將時間的流逝與技術的靈感融入設計細節之中。無論是前端的高效能 render、響應式互動，還是後端穩定可靠的服務，我都保持著對技術的好奇心與嚴謹態度。
+                            </p>
+                            
+                            <div class="stats-row">
+                                <div class="stat-box">
+                                    <span class="stat-number">5+</span>
+                                    <span class="stat-label">開發經驗 (Years)</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-number">40+</span>
+                                    <span class="stat-label">完成專案 (Projects)</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-number">99.9%</span>
+                                    <span class="stat-label">追求卓越 (Commitment)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Time Tools Section (Stopwatch & Countdown) -->
+            <section id="tools" class="section-padding">
+                <div class="section-header center">
+                    <div class="section-tag">INTERACTIVE TOOLS</div>
+                    <h2>精準時間工具箱</h2>
+                    <p class="section-sub">即時碼錶與番茄專注計時，輔助高效率的工作與生活</p>
+                </div>
+
+                <div class="tools-grid">
+                    <!-- Stopwatch Widget -->
+                    <div class="glass-card tool-card">
+                        <div class="tool-header">
+                            <i class="fa-solid fa-stopwatch tool-icon"></i>
+                            <h3>毫秒級碼錶 (Stopwatch)</h3>
+                        </div>
+                        <div class="tool-display" id="stopwatch-display">00:00:00<span class="ms-part">.00</span></div>
+                        <div class="tool-actions">
+                            <button class="btn btn-primary" id="sw-start-btn"><i class="fa-solid fa-play"></i> 開始</button>
+                            <button class="btn btn-secondary" id="sw-lap-btn" disabled><i class="fa-solid fa-flag"></i> 計圈</button>
+                            <button class="btn btn-ghost" id="sw-reset-btn"><i class="fa-solid fa-rotate-left"></i> 重置</button>
+                        </div>
+                        <div class="lap-list-container" id="lap-list">
+                            <!-- Laps inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Pomodoro Countdown Timer Widget -->
+                    <div class="glass-card tool-card">
+                        <div class="tool-header">
+                            <i class="fa-solid fa-brain tool-icon"></i>
+                            <h3>專注倒數計時器 (Focus Timer)</h3>
+                        </div>
+                        <div class="preset-buttons">
+                            <button class="preset-btn active" data-mins="25">25分 專注</button>
+                            <button class="preset-btn" data-mins="5">5分 短休</button>
+                            <button class="preset-btn" data-mins="15">15分 長休</button>
+                        </div>
+                        <div class="tool-display" id="timer-display">25:00</div>
+                        <div class="tool-actions">
+                            <button class="btn btn-primary" id="timer-start-btn"><i class="fa-solid fa-play"></i> 開始專注</button>
+                            <button class="btn btn-ghost" id="timer-reset-btn"><i class="fa-solid fa-rotate-left"></i> 重置</button>
+                        </div>
+                        <div class="timer-status-text" id="timer-status">準備就緒，點擊開始專注</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills & Specialities Section -->
+            <section id="skills" class="section-padding">
+                <div class="section-header center">
+                    <div class="section-tag">TECH STACK</div>
+                    <h2>專業技術領域</h2>
+                    <p class="section-sub">現代全棧開發與創意思維的多維度結合</p>
+                </div>
+
+                <div class="skills-grid">
+                    <div class="glass-card skill-card">
+                        <div class="skill-icon-wrap cyan"><i class="fa-brands fa-react"></i></div>
+                        <h3>前端工程 (Frontend)</h3>
+                        <p>精通 HTML5 / CSS3 / JavaScript (ES6+), React, Vue 框架，打造響應式與流暢動畫頁面。</p>
+                        <div class="skill-tags">
+                            <span>HTML5/CSS3</span>
+                            <span>JavaScript</span>
+                            <span>React</span>
+                            <span>CSS Architecture</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card skill-card">
+                        <div class="skill-icon-wrap violet"><i class="fa-solid fa-server"></i></div>
+                        <h3>後端架構 (Backend)</h3>
+                        <p>設計高效 RESTful & GraphQL API、資料庫架構管理與高性能伺服器端邏輯處理。</p>
+                        <div class="skill-tags">
+                            <span>Node.js</span>
+                            <span>Python</span>
+                            <span>REST APIs</span>
+                            <span>SQL/NoSQL</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card skill-card">
+                        <div class="skill-icon-wrap pink"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <h3>UI/UX 與微互動</h3>
+                        <p>專注於用戶體驗細節，Glassmorphism 視覺設計、暗黑模式體驗與滑動動畫。</p>
+                        <div class="skill-tags">
+                            <span>Glassmorphism</span>
+                            <span>Responsive Design</span>
+                            <span>Micro-Animations</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="section-padding">
+                <div class="glass-card contact-card">
+                    <div class="contact-grid">
+                        <div class="contact-info">
+                            <div class="section-tag">GET IN TOUCH</div>
+                            <h2>與 李君衛 建立聯繫</h2>
+                            <p>歡迎與我討論專案合作、技術交流或任何創意想法！</p>
+
+                            <div class="contact-detail-list">
+                                <div class="contact-detail-item" id="copy-email-btn" title="點擊複製 Email">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <div>
+                                        <span class="detail-label">電子郵件 (Email)</span>
+                                        <span class="detail-val">lijunwei@example.com</span>
+                                    </div>
+                                    <i class="fa-regular fa-copy copy-icon"></i>
+                                </div>
+                                <div class="contact-detail-item">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <div>
+                                        <span class="detail-label">當前位置 (Location)</span>
+                                        <span class="detail-val">Taipei, GMT+8</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="social-links">
+                                <a href="#" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                                <a href="#" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#" class="social-btn" title="Twitter/X"><i class="fa-brands fa-x-twitter"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="contact-form-wrap">
+                            <form id="contact-form">
+                                <div class="form-group">
+                                    <label for="user-name">您的姓名 / Name</label>
+                                    <input type="text" id="user-name" class="form-input" placeholder="例如：張小明" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-email">您的 Email / Email</label>
+                                    <input type="email" id="user-email" class="form-input" placeholder="name@example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-msg">訊息內容 / Message</label>
+                                    <textarea id="user-msg" class="form-input" rows="4" placeholder="請輸入您想交流的內容..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    <i class="fa-solid fa-paper-plane"></i> 發送訊息
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p>© <span id="current-year">2026</span> 李君衛 (Li Junwei). 保留所有權利。</p>
+                    <p class="footer-sub">頁面載入時間戳記：<span id="load-timestamp">---</span></p>
+                </div>
+                <div class="footer-right">
+                    <button id="back-to-top-btn" class="icon-btn" title="返回頂部">
+                        <i class="fa-solid fa-arrow-up"></i>
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
