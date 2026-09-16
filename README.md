@@ -27,6 +27,37 @@
 
 ---
 
+## 📌 DIC (Do In Class 1) - 課堂實作總結
+
+### 🗓️ 實作日期：2026-09-16
+### 👤 開發者：李君衛 (Li Junwei)
+
+#### 🎯 課堂目標 (Class Objectives)
+設計並完成個人專屬的 Landing Page，整合個人資訊、即時動態時間系統、世界時區面板、時間視覺化與高效率工具箱，並將成果上傳至 GitHub 及部署至 GitHub Pages。
+
+#### 💡 成果總結 (Summary of Accomplishments)
+
+1. **視覺與 UI/UX 設計**
+   - **Glassmorphic 設計系統**：運用 CSS `backdrop-filter: blur(20px)`、半透明板塊與發光邊框，創造極具現代感的質感介面。
+   - **深淺色主題與動態背景**：支援一鍵切換深色/淺色模式，結合原生 HTML5 Canvas 浮動粒子動畫。
+
+2. **核心即時時間系統 (Clock & Time Engine)**
+   - **雙模數字時鐘**：支援 12H / 24H 格式切換、即時 AM/PM 標籤與 SVG 刻度環形秒針流暢運轉。
+   - **時段智能問候**：依據當前時間自動切換早安/午後好/晚上好/深夜問候語。
+   - **世界時區連動**：即時換算並同步顯示台北/北京 (GMT+8)、東京 (GMT+9)、倫敦 (GMT+0/+1) 及紐約 (GMT-4/-5) 當前時間。
+   - **時間流逝進度條**：以動態 Progress Bar 即時計算每日 (Day)、每月 (Month) 及 2026 年度 (Year) 已流逝百分比。
+
+3. **專注與工具箱功能 (Interactive Tools)**
+   - **毫秒級碼錶 (Stopwatch)**：精確至 10ms，支援開始、暫停、紀錄圈數 (Lap) 與重置。
+   - **番茄鐘倒數計時器 (Focus Timer)**：提供 25 分鐘專注、5 分鐘短休與 15 分鐘長休快選，計時結束自動觸發通知。
+
+4. **版本控制與線上發布 (Git & Deployment)**
+   - 完成 Git 本地 repository 初始化、commit 紀錄與分支維護。
+   - 順利推送到 GitHub 遠端儲存庫：`https://github.com/Jurass4207/0916.git`
+   - 成功發布並部署 GitHub Pages：[https://jurass4207.github.io/0916/](https://jurass4207.github.io/0916/)
+
+---
+
 ## 🛠️ 技術棧 (Tech Stack)
 
 | 領域 | 技術 / 工具 | 描述 |
