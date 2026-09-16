@@ -181,6 +181,19 @@ document.addEventListener('DOMContentLoaded', () => {
         barYear.style.width = `${yearPct}%`;
     }
 
+    // Load saved preferences from localStorage
+    const savedTheme = localStorage.getItem('user_theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeToggleBtn.innerHTML = savedTheme === 'dark' ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
+    }
+
+    const savedFormat = localStorage.getItem('user_format');
+    if (savedFormat !== null) {
+        is24HourFormat = savedFormat === '24H';
+        formatToggleBtn.querySelector('.btn-text').textContent = is24HourFormat ? '24H' : '12H';
+    }
+
     // Run Clock every 100ms for smooth animations
     setInterval(updateClock, 100);
     updateClock();
@@ -188,7 +201,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 12H / 24H Format Toggle ---
     formatToggleBtn.addEventListener('click', () => {
         is24HourFormat = !is24HourFormat;
-        formatToggleBtn.querySelector('.btn-text').textContent = is24HourFormat ? '24H' : '12H';
+        const fmtText = is24HourFormat ? '24H' : '12H';
+        formatToggleBtn.querySelector('.btn-text').textContent = fmtText;
+        localStorage.setItem('user_format', fmtText);
         showToast(`已切換為 ${is24HourFormat ? '24 小時制' : '12 小時制'}`);
         updateClock();
     });
@@ -198,6 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('user_theme', nextTheme);
         themeToggleBtn.innerHTML = nextTheme === 'dark' ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
         showToast(`已切換為 ${nextTheme === 'dark' ? '深色模式' : '淺色模式'}`);
     });

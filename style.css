@@ -1088,10 +1088,118 @@ body {
     .time-display {
         font-size: 3rem;
     }
-    .skills-grid {
+    .skills-grid, .projects-grid {
         grid-template-columns: 1fr;
     }
     .nav-links {
         display: none; /* Mobile menu can be simplified */
     }
 }
+
+/* Profile Pills */
+.profile-details-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.profile-pill {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.85rem;
+    background: rgba(0, 242, 254, 0.08);
+    border: 1px solid rgba(0, 242, 254, 0.2);
+    border-radius: var(--radius-full);
+    color: var(--accent-cyan);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Projects Showcase Grid & Cards */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.project-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.project-icon.cyan { background: rgba(0, 242, 254, 0.15); color: var(--accent-cyan); }
+.project-icon.violet { background: rgba(127, 0, 255, 0.15); color: var(--accent-violet); }
+.project-icon.pink { background: rgba(255, 0, 127, 0.15); color: var(--accent-pink); }
+
+.project-github-link {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    transition: var(--transition-fast);
+}
+
+.project-github-link:hover {
+    color: var(--accent-cyan);
+    transform: translateY(-2px);
+}
+
+.project-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--text-primary);
+}
+
+.project-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+}
+
+.project-tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+}
+
+.project-tech-tags span {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+}
+
+.project-footer {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: auto;
+}
+
+.btn-sm {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.8rem;
+}
+
