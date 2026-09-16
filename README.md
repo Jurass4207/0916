@@ -8,6 +8,10 @@
 
 一個融合現代 **Glassmorphism 擬晶玻璃視覺**、**即時雙模數字時鐘**、**世界時區儀表板** 與 **高效率專注工具** 的高品質個人 Landing Page。
 
+🔗 **Live Demo**: [https://jurass4207.github.io/0916/](https://jurass4207.github.io/0916/)
+
+![Demo Snapshot](assets/preview.png)
+
 ---
 
 ## 📸 畫面預覽與亮點 (Highlights)
@@ -44,7 +48,8 @@ Personal Page/
 ├── README.md          # 專案說明文件
 ├── .gitignore         # Git 忽略檔案設定
 └── assets/
-    └── avatar.jpg     # 李君衛 專屬形象頭像
+    ├── avatar.jpg     # 李君衛 專屬形象頭像
+    └── preview.png    # Live Demo 畫面截圖
 ```
 
 ---
